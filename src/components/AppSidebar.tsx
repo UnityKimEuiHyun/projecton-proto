@@ -5,9 +5,11 @@ import {
   Users, 
   Calendar, 
   Settings,
-  Plus
+  Plus,
+  LogOut
 } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
+import { useAuth } from "@/hooks/useAuth"
 
 import {
   Sidebar,
@@ -20,6 +22,7 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
   useSidebar,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 
@@ -35,6 +38,7 @@ const settingsItems = [
 ]
 
 export function AppSidebar() {
+  const { user, signOut } = useAuth();
   const { state } = useSidebar()
   const location = useLocation()
   const currentPath = location.pathname
@@ -118,6 +122,22 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <div className="p-2 space-y-2">
+          <div className="text-xs text-muted-foreground">
+            {user?.email}
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={signOut}
+            className="w-full justify-start"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            로그아웃
+          </Button>
+        </div>
+      </SidebarFooter>
     </Sidebar>
   )
 }
